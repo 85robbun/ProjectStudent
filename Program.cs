@@ -62,6 +62,10 @@ namespace ProjectStudent
         {
             get => martialStatus;
         }
+        public string BirthMonth
+        {
+            get => birthMonth;
+        }
 
         public string Housing
         {
@@ -156,9 +160,9 @@ namespace ProjectStudent
                            $"|>Favorite animal: {favoritAnimal}\n" +
                            $"|>Drive in programming: {codingPassion}\n");
                 //In case error throws a message Preventing the error message
-                //I could have used toString method for the whole aplication without creating additinal methods live listNames(),listAllDetails() and so on.
-                //Default string msg would not couse any error as the values are entered by developer and passed to another method.
+                //Default string msg would not cause any error as the values are entered by developer and passed to another method.
                 //Therefore users will never have a option to choose/pick  the "wrong"/not exsisting value.
+
                 default:
                     string msg = string.Format("'{0}' Is invalid string",
                         fmt);
@@ -226,10 +230,8 @@ namespace ProjectStudent
         //Adding a method for menu
         private static void OptMenu()
         {
-            Console.WriteLine("\nPress enter to access menu");
-            Console.ReadKey();
-            Console.WriteLine("\n" +
-                               "|--------------------Menu-----------------------|\n\n" +
+            Console.WriteLine("\n\n\n" +
+                               "|--------------------Menu-----------------------|\n" +
                                "|>[1]Show C#sharsk student names                |\n" +
                                "|>[2]Show C#sharsk students detailed info       |\n" +
                                "|>[3]Show C#sharsk students passion for Coding  |\n" +
@@ -280,17 +282,17 @@ namespace ProjectStudent
 
         //Method for removing student from list
         //i chose to use full name case sensitive in order to remove
-        //After all it shouldnt be that easy to delete C#sharks student
+        //After all it should not be that simple to delete C#sharks student
         private static void DeleteStudent()
         {
             ListNames();
 
-            Console.WriteLine("\n\nEnter students full name ,case sensitive ,example: Robert Bunjaku");
+            Console.WriteLine("\n\nEnter students full name ,case sensitive ,example: Donald Trump");
             string removedStudent = Console.ReadLine();
             if (studentList.Any(student => removedStudent.Contains(student.FullName)))
             {
                 studentList.RemoveAll(s => s.FullName == removedStudent);
-                Console.WriteLine("You removed:" , removedStudent);
+                Console.WriteLine("You removed:" + removedStudent);
                 ListNames();
             }
             else
@@ -299,14 +301,11 @@ namespace ProjectStudent
                 DeleteStudent();
             }
         }
-
-        // Console.WriteLine("You have removed: " + removedStudent);
-
-        //Creating and Adding students with their properties to list
-
+       
         //method for printing student names with comma
         private static void ListNames()
         {
+            Console.WriteLine("\nList of C#sharks students:\n");
             foreach (var student in studentList)
             {
                 Console.Write($"{{0}},", student.FullName);
@@ -333,28 +332,26 @@ namespace ProjectStudent
 
         //Password required to enter the aplication without exit or counting max tries.
         //I want you to login , no secrets here
-        //Added little delay logging in info so the user can get time to realize he guessed right :)
+        //Added little delay logging in info :)
         private static void PassToEnter()
         {
-            var password = "";
+            Console.WriteLine("Type password");
+          
+            var password="";
+           
 
             while (password != "csharks")
             {
+                
                 Console.WriteLine("What is the pass code?A Hint, it is = csharks");
                 password = Console.ReadLine();
 
-                if (password == "csharks")
+               if (password == "csharks")
                 {
                     Console.WriteLine("Password authentication successful!");
-                    Console.Write("Logging in");
-                    Thread.Sleep(1000);
-                    Console.Write(".");
-                    Thread.Sleep(1000);
-                    Console.Write(".");
-                    Thread.Sleep(1000);
-                    Console.Write(".");
-                    Thread.Sleep(500);
-                    Console.Clear();
+                    Console.WriteLine("Logging in");
+                    ShowLoading();
+               
                 }
                 else if (password != "csharks")
                 {
@@ -365,19 +362,32 @@ namespace ProjectStudent
         }
 
         //Adding a method to save the file do MyCoduments/Mina dokument
+        //We are using ToString method "D"
         private static void SaveToTxt()
         {
-            Console.WriteLine("Saving a file...");
-            Thread.Sleep(2000);
-            Console.WriteLine("All done check your Mydocuments/Mina dokumment for StudentList.txt");
+            Console.WriteLine("Saving a file to MyDocuments...");
+            ShowLoading();
+            Console.Write("Check your My documents/Mina dokumment folder for StudentList.txt");
             Thread.Sleep(2000);
             var docPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            using (TextWriter tw = new StreamWriter(Path.Combine(docPath, "StudentList.txt")))
+            using (TextWriter tw = new StreamWriter(Path.Combine (docPath, "StudentList.txt")))
 
                 foreach (Student s in studentList)
                 {
                     tw.WriteLine(s.ToString("D"));
                 }
         }
+        static void ShowLoading()
+        {
+            for (int i = 0; i <= 100; i++)
+            {
+                Console.Write($"\rProgress: {i}%   ");
+                Thread.Sleep(25);
+            }
+
+            Console.Write("\rIt is all Done!          ");
+            Console.Clear();
+        }
     }
+
 }

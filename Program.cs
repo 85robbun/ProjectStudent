@@ -186,9 +186,7 @@ namespace ProjectStudent
             while (isON)
             {
                 //Method for displaying the menu
-                Thread.Sleep(2000);
                 OptMenu();
-
                 cki = Console.ReadKey(true); // hide key when user input
                 switch (cki.KeyChar.ToString())
                 {
@@ -228,6 +226,8 @@ namespace ProjectStudent
         //Adding a method for menu
         private static void OptMenu()
         {
+            Console.WriteLine("\nPress enter to access menu");
+            Console.ReadKey();
             Console.WriteLine("\n" +
                                "|--------------------Menu-----------------------|\n\n" +
                                "|>[1]Show C#sharsk student names                |\n" +
@@ -287,15 +287,10 @@ namespace ProjectStudent
 
             Console.WriteLine("\n\nEnter students full name ,case sensitive ,example: Robert Bunjaku");
             string removedStudent = Console.ReadLine();
-            // studentList.RemoveAll(s => s.Name == removedStudent);
-            /* foreach (Student student in studentList)
-             {
-                 Console.WriteLine(student);
-                 }*/
             if (studentList.Any(student => removedStudent.Contains(student.FullName)))
             {
                 studentList.RemoveAll(s => s.FullName == removedStudent);
-                Console.WriteLine("You removed");
+                Console.WriteLine("You removed:" , removedStudent);
                 ListNames();
             }
             else
@@ -345,7 +340,7 @@ namespace ProjectStudent
 
             while (password != "csharks")
             {
-                Console.WriteLine("What is the pass code?");
+                Console.WriteLine("What is the pass code?A Hint, it is = csharks");
                 password = Console.ReadLine();
 
                 if (password == "csharks")

@@ -48,10 +48,9 @@ namespace ProjectStudent
 
         //Adding properties no need for set values here for application purpose.
 
-        public string Name
+        public string FullName
         {
             get => fullName;
-            set => fullName = value;
         }
 
         public int Age
@@ -122,7 +121,7 @@ namespace ProjectStudent
                 //Show All Student Deatails testing adding rows
                 //Would have worked much better if we used letters limits instead of adding long sentences that wont align.
                 case "A":
-                    return String.Format ("{0,-15}" ,fullName);
+                    return String.Format("{0,-15}", fullName);
 
                 //Show Stundents names only
                 case "B":
@@ -142,10 +141,10 @@ namespace ProjectStudent
                            "|Name: {0,-15}\n|Text: {1,-10}\n" +
                            "|-----------------------------------------*C#harksRock*--------------------------------------------|\n"
                            , fullName, codingPassion);
-
+                //Using this case to export list inro the text file
                 case "D":
                     return string.Format(
-                           $"|>Name: {Name}\n" +
+                           $"|>Name: {fullName}\n" +
                            $"|>Age: {Age}\n" +
                            $"|>Martial Status: {martialStatus}\n" +
                            $"|>Accommodation: {housing}\n" +
@@ -230,7 +229,7 @@ namespace ProjectStudent
         private static void OptMenu()
         {
             Console.WriteLine("\n" +
-                               "|--------------------Menu-----------------------|\n\n" + 
+                               "|--------------------Menu-----------------------|\n\n" +
                                "|>[1]Show C#sharsk student names                |\n" +
                                "|>[2]Show C#sharsk students detailed info       |\n" +
                                "|>[3]Show C#sharsk students passion for Coding  |\n" +
@@ -284,13 +283,29 @@ namespace ProjectStudent
         //After all it shouldnt be that easy to delete C#sharks student
         private static void DeleteStudent()
         {
-            Console.WriteLine("You are removing student");
             ListNames();
-            Console.WriteLine("Enter students full name ,case sensitive ,example: Robert Bunjaku ");
+
+            Console.WriteLine("\n\nEnter students full name ,case sensitive ,example: Robert Bunjaku");
             string removedStudent = Console.ReadLine();
-            studentList.RemoveAll(s => s.Name == removedStudent);
-            Console.WriteLine("You have removed: " + removedStudent);
+            // studentList.RemoveAll(s => s.Name == removedStudent);
+            /* foreach (Student student in studentList)
+             {
+                 Console.WriteLine(student);
+                 }*/
+            if (studentList.Any(student => removedStudent.Contains(student.FullName)))
+            {
+                studentList.RemoveAll(s => s.FullName == removedStudent);
+                Console.WriteLine("You removed");
+                ListNames();
+            }
+            else
+            {
+                Console.WriteLine("Wrong input!:TryAgain");
+                DeleteStudent();
+            }
         }
+
+        // Console.WriteLine("You have removed: " + removedStudent);
 
         //Creating and Adding students with their properties to list
 
@@ -298,10 +313,9 @@ namespace ProjectStudent
         private static void ListNames()
         {
             foreach (var student in studentList)
-                {
-                    Console.Write($"{{0}},", student.Name);
-                }
-            
+            {
+                Console.Write($"{{0}},", student.FullName);
+            }
         }
 
         //method for prtinting student names with all details and using toString method
